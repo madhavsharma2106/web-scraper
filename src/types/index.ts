@@ -13,5 +13,7 @@ export interface IScrape extends Partial<Document> {
   hostname: string;
   fileId: string;
   url: string;
-  isCrawled: boolean;
+  isCrawled?: boolean;
+  isScraped?: boolean;
+  isProcessed?: boolean;
 }

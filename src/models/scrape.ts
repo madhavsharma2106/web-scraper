@@ -20,7 +20,15 @@ const schema = new Schema<IScrape>(
     },
     isCrawled: {
       type: Boolean,
-      required: true,
+      default: false,
+    },
+    isScraped: {
+      type: Boolean,
+      default: false,
+    },
+    isProcessed: {
+      type: Boolean,
+      default: false,
     },
   },
   {
