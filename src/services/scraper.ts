@@ -1,8 +1,10 @@
 import { logger } from "@configs/logger";
+import { Scrape } from "@models/scrape";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { v4 as uuidv4 } from "uuid";
 import { saveFileToObjectStorage } from "@services/object-storage";
+import { IScrape } from "@types";
 const Logger = logger("@services/scraper");
 
 export async function crawl() {}
@@ -15,10 +17,6 @@ export async function scrape(url: string) {
     const { hostname } = new URL(url);
 
     const fileId = uuidv4();
-    // fs.writeFileSync(
-    //   `scrapes/${fileId}.json`,
-    //   JSON.stringify(response.data, null, 2)
-    // );
 
     const fileMetaData = {
       url,
@@ -27,9 +25,14 @@ export async function scrape(url: string) {
     };
 
     await saveFileToObjectStorage({ data: response.data, name: fileId });
-    Logger("scrape").info("file saved successfully.");
+    await saveScrapeMetaDataToDB({ ...fileMetaData, isCrawled: false });
+    await Logger("scrape").info("file saved successfully.");
     return fileMetaData;
   } catch (error) {
     throw Error(error);
   }
 }
+
+export const saveScrapeMetaDataToDB = async (scrape: IScrape) => {
+  return await Scrape.create(scrape);
+};
