@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1598.0",
     "axios": "^1.6.8",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
@@ -26,11 +27,12 @@
     "node-cleanup": "^2.1.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
-    "uuidv4": "^6.2.13",
+    "uuid": "^9.0.1",
     "winston": "^3.13.0",
     "winston-syslog": "^2.7.0"
   },
   "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
     "@types/axios": "^0.14.0",
     "@types/cheerio": "^0.22.35",
     "@types/cors": "^2.8.17",
@@ -41,6 +43,7 @@
     "@types/http-status": "^1.1.2",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.12.7",
+    "@types/uuid": "^9.0.8",
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0"

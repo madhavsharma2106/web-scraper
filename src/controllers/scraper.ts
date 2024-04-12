@@ -1,7 +1,9 @@
+import { scrape } from "@services/scraper";
 import { catchAsync } from "@utils/catchAsync";
 import { Request, Response } from "express";
 
-export const scrapeData = catchAsync((req: Request, res: Response) => {
+export const scrapeData = catchAsync(async (req: Request, res: Response) => {
   const { url } = req.query;
-  res.send(url);
+  const metaData = await scrape(url as string);
+  res.send(metaData);
 });
