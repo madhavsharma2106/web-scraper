@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "removeComments": true,
+    "lib": ["dom", "ESNext"],
+    "esModuleInterop": true,
+    "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "experimentalDecorators": true,
+    "baseUrl": "./",
+    "rootDir": "src",
+    "sourceMap": true,
+    "target": "es2017",
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "paths": {
+      "@configs/*": ["./src/configs/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@controllers/*": ["./src/controllers/*"],
+      "@middlewares/*": ["./src/middlewares/*"],
+      "@services/*": ["./src/services/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@types": ["./src/types"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/utils/tokenManager.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
