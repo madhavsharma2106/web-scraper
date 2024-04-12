@@ -1,10 +1,10 @@
 import { Model, Schema, model } from "mongoose";
 const { toJSON, paginate } = require("./plugins");
-import { IScrape, IPlugins } from "@types";
+import { ILink, IPlugins } from "@types";
 
-interface IScrapeModel extends Model<IScrape>, IPlugins {}
+interface ILinkModel extends Model<ILink>, IPlugins {}
 
-const schema = new Schema<IScrape>(
+const schema = new Schema<ILink>(
   {
     hostname: {
       type: String,
@@ -39,7 +39,4 @@ const schema = new Schema<IScrape>(
 schema.plugin(toJSON);
 schema.plugin(paginate);
 
-export const Scrape: IScrapeModel = model<IScrape, IScrapeModel>(
-  "Scrape",
-  schema
-);
+export const Link: ILinkModel = model<ILink, ILinkModel>("Link", schema);

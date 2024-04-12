@@ -1,20 +1,19 @@
 import { logger } from "@configs/logger";
-import { Scrape } from "@models/scrape";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { v4 as uuidv4 } from "uuid";
 import { saveFileToObjectStorage } from "@services/object-storage";
-import { IScrape } from "@types";
-import { FilterQuery } from "mongoose";
 import { ApiError } from "@utils/apiError";
 import httpStatus from "http-status";
+import { findLinkByURL, saveLinkMetaDataToDB } from "./link";
+
 const Logger = logger("@services/scraper");
 
 export async function scrape(url: string) {
   try {
     Logger("scrape").info(`Scraping URL: ${url}`);
 
-    const hasURLAlreadyBeenScraped = await findScrapeByURL({
+    const hasURLAlreadyBeenScraped = await findLinkByURL({
       url,
       isScraped: true,
     });
@@ -39,7 +38,7 @@ export async function scrape(url: string) {
     // Save to S3
     await saveFileToObjectStorage({ data: response.data, name: fileId });
     // Save metadata to DB
-    await saveScrapeMetaDataToDB({ ...fileMetaData, isScraped: true });
+    await saveLinkMetaDataToDB({ ...fileMetaData, isScraped: true });
 
     Logger("scrape").info("file saved successfully.");
 
@@ -48,11 +47,3 @@ export async function scrape(url: string) {
     throw Error(error);
   }
 }
-
-export const saveScrapeMetaDataToDB = async (scrape: IScrape) => {
-  return await Scrape.create(scrape);
-};
-
-export const findScrapeByURL = async (data: FilterQuery<IScrape>) => {
-  return await Scrape.findOne(data);
-};
