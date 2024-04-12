@@ -26,3 +26,17 @@ export const saveFileToObjectStorage = async (
     throw new Error(err);
   }
 };
+
+export const getFileFromObjectStore = async (fileId: string) => {
+  try {
+    const params: AWS.S3.GetObjectAclRequest = {
+      Bucket: SCRAPES_BUCKET,
+      Key: fileId,
+    };
+
+    const file = await s3.getObject(params).promise();
+    return file;
+  } catch (err) {
+    throw new Error(err);
+  }
+};

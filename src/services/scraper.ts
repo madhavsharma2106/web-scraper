@@ -10,11 +10,10 @@ import { ApiError } from "@utils/apiError";
 import httpStatus from "http-status";
 const Logger = logger("@services/scraper");
 
-export async function crawl(scape: IScrape) {}
-
 export async function scrape(url: string) {
   try {
     Logger("scrape").info(`Scraping URL: ${url}`);
+
     const hasURLAlreadyBeenScraped = await findScrapeByURL({
       url,
       isScraped: true,
