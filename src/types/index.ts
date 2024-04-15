@@ -9,7 +9,7 @@ export interface IPlugins {
   paginate: any;
 }
 
-export interface ILink extends Partial<Document> {
+export interface IPage extends Partial<Document> {
   hostname: string;
   fileId: string;
   url: string;

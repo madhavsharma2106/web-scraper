@@ -1,10 +1,10 @@
 import { Model, Schema, model } from "mongoose";
 const { toJSON, paginate } = require("./plugins");
-import { ILink, IPlugins } from "@types";
+import { IPage, IPlugins } from "@types";
 
-interface ILinkModel extends Model<ILink>, IPlugins {}
+interface IPageModel extends Model<IPage>, IPlugins {}
 
-const schema = new Schema<ILink>(
+const schema = new Schema<IPage>(
   {
     hostname: {
       type: String,
@@ -12,11 +12,11 @@ const schema = new Schema<ILink>(
     },
     fileId: {
       type: String,
-      required: true,
     },
     url: {
       type: String,
       required: true,
+      unique: true,
     },
     isCrawled: {
       type: Boolean,
@@ -39,4 +39,4 @@ const schema = new Schema<ILink>(
 schema.plugin(toJSON);
 schema.plugin(paginate);
 
-export const Link: ILinkModel = model<ILink, ILinkModel>("Link", schema);
+export const Page: IPageModel = model<IPage, IPageModel>("Page", schema);

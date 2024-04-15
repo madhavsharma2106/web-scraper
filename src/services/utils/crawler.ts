@@ -1,35 +1,35 @@
 export const getURLsFromPage = ($: cheerio.Root, currentUrl: string) => {
-  const links: string[] = [];
+  const urls: string[] = [];
   $("a").each((index, element) => {
     let href = $(element).attr("href");
     if (href) {
-      links.push(href);
+      urls.push(href);
     }
   });
 
-  const sanitizedLinks = sanitizeLinks(links, currentUrl);
-  return sanitizedLinks;
+  const sanitizedUrls = sanitizeUrls(urls, currentUrl);
+  return sanitizedUrls;
 };
 
-export const sanitizeLinks = (links: string[], currentUrl: string) => {
-  const sanitizedLinks: string[] = [];
+export const sanitizeUrls = (urls: string[], currentUrl: string) => {
+  const sanitizedUrls: string[] = [];
 
-  for (let link of links) {
+  for (let url of urls) {
     // Remove Query Params
-    let cleanLink = removeQueryParams(link);
+    let cleanUrl = removeQueryParams(url);
 
     // Remove trailing slashes
-    cleanLink = removeTrailingSlash(cleanLink);
+    cleanUrl = removeTrailingSlash(cleanUrl);
 
-    // Check the link is pointing to the current hostname
-    if (cleanLink.includes(currentUrl) && cleanLink !== currentUrl)
-      sanitizedLinks.push(cleanLink);
+    // Check the url is pointing to the current page
+    if (cleanUrl.includes(currentUrl) && cleanUrl !== currentUrl)
+      sanitizedUrls.push(cleanUrl);
   }
 
   // Deduplicate
-  const deduplicatedLinks = [...new Set(sanitizedLinks)];
+  const deduplicatedUrls = [...new Set(sanitizedUrls)];
 
-  return deduplicatedLinks;
+  return deduplicatedUrls;
 };
 
 export const removeTrailingSlash = (str: string) => {

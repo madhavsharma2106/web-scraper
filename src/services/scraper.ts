@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { saveFileToObjectStorage } from "@services/object-storage";
 import { ApiError } from "@utils/apiError";
 import httpStatus from "http-status";
-import { findLinkByURL, saveLinkMetaDataToDB } from "./link";
+import { findPageByURL, savePageMetaDataToDB } from "./page";
 
 const Logger = logger("@services/scraper");
 
@@ -13,10 +13,11 @@ export async function scrape(url: string) {
   try {
     Logger("scrape").info(`Scraping URL: ${url}`);
 
-    const hasURLAlreadyBeenScraped = await findLinkByURL({
+    const hasURLAlreadyBeenScraped = await findPageByURL({
       url,
       isScraped: true,
     });
+    Logger("scrape").info("%o", hasURLAlreadyBeenScraped);
     if (hasURLAlreadyBeenScraped)
       throw new ApiError(
         httpStatus.CONFLICT,
@@ -38,11 +39,14 @@ export async function scrape(url: string) {
     // Save to S3
     await saveFileToObjectStorage({ data: response.data, name: fileId });
     // Save metadata to DB
-    await saveLinkMetaDataToDB({ ...fileMetaData, isScraped: true });
+    const page = await savePageMetaDataToDB({
+      ...fileMetaData,
+      isScraped: true,
+    });
 
     Logger("scrape").info("file saved successfully.");
 
-    return fileMetaData;
+    return page;
   } catch (error) {
     throw Error(error);
   }
