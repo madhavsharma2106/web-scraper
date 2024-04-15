@@ -15,6 +15,11 @@ export const findUnscrapedPage = async (): Promise<IPage | null> => {
 };
 
 export const storeMultiplePages = async (hostname: string, urls: string[]) => {
-  const pageInserts = urls.map((url) => ({ hostname, url }));
-  return await Page.insertMany(pageInserts);
+  const pageInserts = urls.map(async (url) => {
+    const existingPage = await Page.findOne({ hostname, url });
+    if (!existingPage) {
+      return await Page.create({ hostname, url });
+    }
+  });
+  return await Promise.all(pageInserts);
 };
